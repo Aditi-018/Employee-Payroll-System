@@ -4,36 +4,20 @@ const path = require("path");
 
 const { readEmployees, writeEmployees } = require("./modules/fileHandler");
 
-/* ===============================
-   MIDDLEWARE
-================================= */
-
-// Correct static setup
 app.use(express.static(path.join(__dirname, "public")));
 
-// Form data parser
 app.use(express.urlencoded({ extended: true }));
 
-// View engine setup
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 
-
-/* ===============================
-   DASHBOARD
-================================= */
 
 app.get("/", async (req, resp) => {
     const employees = await readEmployees();
     resp.render("index", { employees });
 });
 
-
-
-/* ===============================
-   ADD EMPLOYEE
-================================= */
 
 app.get("/add", (req, resp) => {
     resp.render("add");
@@ -47,7 +31,6 @@ app.post("/add", async (req, resp) => {
         return resp.send("Invalid Data");
     }
 
-    // Combine dropdown date
     let startDate = "";
 
     if (day && month && year) {
@@ -62,7 +45,7 @@ app.post("/add", async (req, resp) => {
         department,
         salary: Number(salary),
         profile,
-        startDate   // 🔥 now correctly generated
+        startDate   
     };
 
     employees.push(newEmployee);
@@ -73,10 +56,6 @@ app.post("/add", async (req, resp) => {
 });
 
 
-
-/* ===============================
-   DELETE EMPLOYEE
-================================= */
 
 app.get("/delete/:id", async (req, resp) => {
 
@@ -91,11 +70,6 @@ app.get("/delete/:id", async (req, resp) => {
     resp.redirect("/");
 });
 
-
-
-/* ===============================
-   EDIT EMPLOYEE
-================================= */
 
 app.get("/edit/:id", async (req, resp) => {
 
@@ -132,7 +106,7 @@ app.post("/edit/:id", async (req, resp) => {
             };
         }
 
-        return emp;  // IMPORTANT
+        return emp; 
     });
 
     await writeEmployees(employees);
@@ -142,10 +116,6 @@ app.post("/edit/:id", async (req, resp) => {
 
 
 
-/* ===============================
-   SERVER START
-================================= */
-
 app.listen(2700, () => {
-    console.log("Employee Payroll running on http://localhost:2700");
+    console.log("Employee Payroll running on 2700");
 });

@@ -114,8 +114,6 @@ app.post("/edit/:id", async (req, resp) => {
     resp.redirect("/");
 });
 
-
-
 app.listen(2700, () => {
     console.log("Employee Payroll running on 2700");
 });

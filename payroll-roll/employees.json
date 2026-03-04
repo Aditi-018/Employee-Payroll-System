@@ -1,18 +1,1 @@
-[
-  {
-    "id": "1771566311056",
-    "name": "Priyanshu Varshney",
-    "department": "Finance",
-    "salary": 50000,
-    "profile": "1",
-    "startDate": "19 Nov 2023"
-  },
-  {
-    "id": "1771566612763",
-    "name": "Aryan Jaiswal",
-    "department": "Sales",
-    "salary": 10000,
-    "profile": "1",
-    "startDate": "22 Jan 2015"
-  }
-]
+[]

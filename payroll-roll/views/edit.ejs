@@ -1,47 +1,152 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Edit Employee</title>
     <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
 
-<div class="form-page">
+    <div class="form-page">
+        <div class="form-card">
 
-    <div class="form-card">
+            <h2>Edit Employee</h2>
 
-        <h2>Edit Employee</h2>
+            <form action="/edit/<%= employee.id %>" method="POST">
 
-        <form action="/edit/<%= employee.id %>" method="POST">
+                <!-- Name -->
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" value="<%= employee.name %>" required>
+                </div>
 
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" value="<%= employee.name %>" required>
-            </div>
+                <!-- Profile -->
+                <div class="form-group">
+                    <label>Profile Image</label>
+                    <div class="image-options">
 
+                        <label>
+                            <input type="radio" name="profile" value="maleicon.png" <%=employee.profile==="maleicon.png"
+                                ? "checked" : "" %>>
+                            <img src="/images/maleicon.png">
+                        </label>
 
-            <div class="form-group">
-                <label>Department</label>
-                <input type="text" name="department" value="<%= employee.department %>" required>
-            </div>
+                        <label>
+                            <input type="radio" name="profile" value="femaleicon.png"
+                                <%=employee.profile==="femaleicon.png" ? "checked" : "" %>>
+                            <img src="/images/femaleicon.png">
+                        </label>
 
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label>Salary</label>
-                <input type="number" name="salary" value="<%= employee.salary %>" required>
-            </div>
+                <!-- Gender -->
+                <!-- <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="gender" value="Male" <%=employee.gender==="Male" ? "checked" : ""
+                                %>> Male
+                        </label>
 
+                        <label>
+                            <input type="radio" name="gender" value="Female" <%=employee.gender==="Female" ? "checked"
+                                : "" %>> Female
+                        </label>
+                    </div>
+                </div> -->
 
-            <div class="form-buttons">
-                <a href="/"><button type="button" class="cancel-btn">Cancel</button></a>
-                <button type="submit" class="submit-btn">Update</button>
-            </div>
+                <!-- Department -->
+                <div class="form-group">
+                    <label>Department</label>
+                    <div class="checkbox-group">
+
+                        <% const dept=employee.department || []; %>
+
+                            <label>
+                                <input type="checkbox" name="department" value="HR" <%=dept.includes("HR") ? "checked"
+                                    : "" %>> HR
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="department" value="Sales" <%=dept.includes("Sales")
+                                    ? "checked" : "" %>> Sales
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="department" value="Finance" <%=dept.includes("Finance")
+                                    ? "checked" : "" %>> Finance
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="department" value="Engineer" <%=dept.includes("Engineer")
+                                    ? "checked" : "" %>> Engineer
+                            </label>
+
+                    </div>
+                </div>
+
+                <!-- Salary -->
+                <div class="form-group">
+                    <label>Salary</label>
+                    <select name="salary" required>
+                        <option value="10000" <%=employee.salary==10000 ? "selected" : "" %>>₹ 10,000</option>
+                        <option value="20000" <%=employee.salary==20000 ? "selected" : "" %>>₹ 20,000</option>
+                        <option value="30000" <%=employee.salary==30000 ? "selected" : "" %>>₹ 30,000</option>
+                        <option value="40000" <%=employee.salary==40000 ? "selected" : "" %>>₹ 40,000</option>
+                        <option value="50000" <%=employee.salary==50000 ? "selected" : "" %>>₹ 50,000</option>
+                    </select>
+                </div>
+
+                <!-- Start Date -->
+                <div class="form-group">
+                    <label>Start Date</label>
+
+                    <% let day="" , month="" , year="" ; if(employee.startDate){ const parts=employee.startDate.split(" ");
+                        day = parts[0];
+                        month = parts[1];
+                        year = parts[2];
+                    }%>
+
+<div class=" date-group">
+
+                        <select name="day">
+                            <% for(let i=1;i<=31;i++){ %>
+                                <option value="<%= i %>" <%=day==i ? "selected" : "" %>><%= i %>
+                                </option>
+                                <% } %>
+                        </select>
+
+                        <select name="month">
+                            <% const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+                                %>
+                                <% months.forEach(m=> { %>
+                                    <option value="<%= m %>" <%=month==m ? "selected" : "" %>><%= m %>
+                                    </option>
+                                    <% }) %>
+                        </select>
+
+                        <select name="year">
+                            <% for(let i=2015;i<=2026;i++){ %>
+                                <option value="<%= i %>" <%=year==i ? "selected" : "" %>><%= i %>
+                                </option>
+                                <% } %>
+                        </select>
+
+                </div>
+        </div>
+
+        <div class="form-buttons">
+            <a href="/"><button type="button" class="cancel-btn">Cancel</button></a>
+            <button type="submit" class="submit-btn">Update</button>
+        </div>
 
         </form>
 
     </div>
-
-</div>
+    </div>
 
 </body>
+
 </html>

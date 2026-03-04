@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 
 const { readEmployees, writeEmployees } = require("./modules/fileHandler");
+const { profile } = require("console");
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -45,7 +46,7 @@ app.post("/add", async (req, resp) => {
         department,
         salary: Number(salary),
         profile,
-        startDate   
+        startDate
     };
 
     employees.push(newEmployee);
@@ -91,26 +92,28 @@ app.post("/edit/:id", async (req, resp) => {
 
     const id = req.params.id;
 
-    const { name, department, salary } = req.body;
-
+    const { name, department, salary, profile, gender, day, month, year } = req.body;
     let employees = await readEmployees();
+        employees = employees.map(emp => {
+            if (emp.id === id) {
+                let startDate = emp.startDate;
 
-    employees = employees.map(emp => {
-
-        if (emp.id === id) {
-            return {
-                id,
-                name,
-                department,
-                salary: Number(salary)
-            };
-        }
-
-        return emp; 
-    });
-
-    await writeEmployees(employees);
-
+                if(day && month && year){
+                    startDate = `${day} ${month} ${year}`;
+                }
+                return {
+                    id,
+                    name,
+                    department: Array.isArray(department) ? department : [department],
+                    salary: Number(salary),
+                    profile,
+                    gender,
+                    startDate
+                };
+            }
+            return emp;
+        });
+        await writeEmployees(employees);
     resp.redirect("/");
 });
 
